@@ -8,12 +8,20 @@ Bundler.require(*Rails.groups)
 
 module BeeSmart
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.autoload_paths += %W( lib/ )
+    config.mqtt_client_configuration = {
+      host: 'beesmart.cure.edu.uy',
+      port: 2000,
+      username: 'pfc',
+      password: 'pfc'
+    }
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+
+    config.after_initialize do
+      config.mqtt_client = MqttClient.new(config.mqtt_client_configuration)
+      config.mqtt_client.subscribe('colmena1/data', IncomingPacketService)
+      config.mqtt_client.publish('test/rails', "HOLA MUNDO!")
+    end
   end
 end
