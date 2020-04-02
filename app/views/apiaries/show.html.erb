@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uuid:</strong>
+  <%= @apiary.uuid %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @apiary.description %>
+</p>
+
+<h1>Colmenas</h1>
+<ul>
+  <% @apiary.hives.each do |hive| %>
+  <li><%= link_to hive.uuid, hive_path(hive) %></li>
+  <% end %>
+</ul>
+<%= link_to 'Back', apiaries_path %>

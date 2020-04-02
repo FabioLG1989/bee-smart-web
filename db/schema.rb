@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_182436) do
 
   create_table "apiaries", force: :cascade do |t|
     t.bigint "user_id"
+    t.string "description"
     t.string "uuid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -34,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_182436) do
 
   create_table "hives", force: :cascade do |t|
     t.string "uuid"
+    t.string "description"
     t.bigint "apiary_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -19,9 +19,10 @@ module BeeSmart
 
 
     config.after_initialize do
-      config.mqtt_client = MqttClient.new(config.mqtt_client_configuration)
-      config.mqtt_client.subscribe('colmena1/data', IncomingPacketService)
-      config.mqtt_client.publish('test/rails', "HOLA MUNDO!")
+      if ActiveRecord::Base.connection.data_source_exists? 'apiaries'
+        config.mqtt_client = MqttClient.new(config.mqtt_client_configuration)
+        SubscribeApiaryService.call
+      end
     end
   end
 end

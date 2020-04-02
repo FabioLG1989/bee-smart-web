@@ -1,3 +1,10 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'apiaries#index'
+  resources :apiaries
+  resources :hives, only: [:show] do
+    member do
+      get :close, to: 'hives#close'
+      get :open, to: 'hives#open'
+    end
+  end
 end

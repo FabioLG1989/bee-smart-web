@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Apiaries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uuid</th>
+      <th>Descripcion</th>
+      <th>Colmenas</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @apiaries.each do |apiary| %>
+      <tr>
+        <td><%= apiary.uuid %></td>
+        <td><%= apiary.description %></td>
+        <td><%= apiary.hives.count %></td>
+        <td><%= link_to 'Show', apiary %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Apiary', new_apiary_path %>

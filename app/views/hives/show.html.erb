@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uuid:</strong>
+  <%= @hive.uuid %>
+</p>
+
+<div>
+  <strong>Temperatures:</strong>
+  <table>
+    <thead>
+       <% @hive.temperature_grid&.temperature_sensors&.each do |temperature_sensor| %>
+        <th><%= temperature_sensor.uuid %></th>
+        <th> Measured at </th>
+      <% end %>
+    </thead>
+
+    <tbody>
+      <tr>
+      <% @hive.temperature_grid&.temperature_sensors&.each do |temperature_sensor| %>
+          <td><%= temperature_sensor.temperature_measures&.last&.temperature %></td>
+          <td><%= temperature_sensor.temperature_measures&.last&.measured_at %></td>
+      <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<div>
+  <table>
+    <thead>
+      <th>Weight</th>
+      <th>Measured at</th>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= @hive.scale&.scale_measures&.last&.raw %></td>
+        <td><%= @hive.scale&.scale_measures&.last&.measured_at %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<div>
+  <strong>Door:</strong>
+  <table>
+    <thead>
+      <th>Position</th>
+      <th colspan="2"></th>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= link_to 'Close', close_hive_path(@hive) %> <%= link_to 'Open', open_hive_path(@hive) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<%= link_to 'Back', apiary_path(@hive.apiary) %>

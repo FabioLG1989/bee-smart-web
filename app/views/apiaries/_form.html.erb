@@ -1,0 +1,27 @@
+<%= form_with(model: apiary, local: true) do |form| %>
+  <% if apiary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(apiary.errors.count, "error") %> prohibited this apiary from being saved:</h2>
+
+      <ul>
+        <% apiary.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :uuid %>
+    <%= form.text_field :uuid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

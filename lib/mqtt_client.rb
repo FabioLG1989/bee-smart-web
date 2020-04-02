@@ -1,4 +1,6 @@
 class MqttClient
+  attr_reader :client
+
   def initialize(configuration)
     @client = PahoMqtt::Client.new({ username: configuration[:username], password: configuration[:password] })
     @client.connect(
