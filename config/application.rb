@@ -11,10 +11,10 @@ module BeeSmart
     config.load_defaults 6.0
     config.autoload_paths += %W( lib/ )
     config.mqtt_client_configuration = {
-      host: 'beesmart.cure.edu.uy',
-      port: 2000,
-      username: 'pfc',
-      password: 'pfc'
+      host: ENV['MQTT_HOST'],
+      port: ENV['MQTT_PORT'],
+      username: ENV['MQTT_USERNAME'],
+      password: ENV['MQTT_PASSWORD']
     }
 
 
@@ -24,5 +24,15 @@ module BeeSmart
         SubscribeApiaryService.call
       end
     end
+
+    ActionMailer::Base.smtp_settings = {
+      :user_name => ENV['SENDGRID_USERNAME'],
+      :password => ENV['SENDGRID_PASSWORD'],
+      :domain => ENV['SENDGRID_DOMAIN'],
+      :address => 'smtp.sendgrid.net',
+      :port => 465,
+      :authentication => :plain,
+      :enable_starttls_auto => true
+    }
   end
 end
