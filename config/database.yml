@@ -29,5 +29,5 @@ test:
 production:
   <<: *default
   database: bee_smart_production
-  username: bee_smart
-  password: <%= ENV['BEE_SMART_DATABASE_PASSWORD'] %>
+  username: beesmart
+  password: <%= ENV['BEESMART_DATABASE_PASSWORD'] %>
