@@ -34,4 +34,8 @@ module BeeSmart
       password:       ENV['SENDGRID_API_KEY']
     }
   end
+
+  Raven.configure do |config|
+    config.dsn = 'https://78494f8cb1b9450b98974448c808965a:58f6dcb464ee41e8adcf2170bc3a87c0@o380017.ingest.sentry.io/5205405'
+  end
 end

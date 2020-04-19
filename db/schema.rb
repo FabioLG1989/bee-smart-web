@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_060611) do
+ActiveRecord::Schema.define(version: 2020_04_19_062200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_060611) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
+    t.index ["uuid"], name: "index_apiaries_on_uuid"
   end
 
   create_table "apiaries_users", id: false, force: :cascade do |t|
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_060611) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.index ["apiary_id"], name: "index_hives_on_apiary_id"
+    t.index ["uuid"], name: "index_hives_on_uuid"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -78,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_060611) do
     t.bigint "scale_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["measured_at"], name: "index_scale_measures_on_measured_at"
     t.index ["scale_id"], name: "index_scale_measures_on_scale_id"
   end
 
@@ -105,6 +108,7 @@ ActiveRecord::Schema.define(version: 2020_04_19_060611) do
     t.bigint "temperature_sensor_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["measured_at"], name: "index_temperature_measures_on_measured_at"
     t.index ["temperature_sensor_id"], name: "index_temperature_measures_on_temperature_sensor_id"
   end
 

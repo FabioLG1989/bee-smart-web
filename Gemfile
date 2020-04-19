@@ -11,6 +11,7 @@ gem 'slim'
 gem 'sidekiq'
 gem 'chartkick'
 gem 'groupdate'
+gem 'sentry-raven'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.1'
