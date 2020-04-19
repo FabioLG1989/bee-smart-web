@@ -1,0 +1,6 @@
+en:
+  active_admin:
+    actions:
+      add_apiary: 'Add Apiary'
+      submit: 'Agregar'
+      cancel: 'Cancelar'

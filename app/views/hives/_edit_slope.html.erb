@@ -1,0 +1,17 @@
+<%
+  form_attributes = {
+    builder: ActiveAdmin::FormBuilder,
+    url: :update_scale_slope_admin_hive,
+    method: :post,
+    data: { confirm: 'Antes de continuar, asegurese de que la colmena tenga un peso conocido sobre su tara, que este haya sido ingresado correctamente, y que la ultima medida en el sistema sea con este peso. Esta acción tendra un efecto en futuras medidas' }
+  }
+%>
+
+<%= semantic_form_for :scale, form_attributes do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :known_weight, as: :number, label: 'Peso conocido introducido (KG)', input_html: { value: 1 } %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Actualizar pendiente' %>
+  <% end %>
+<% end %>

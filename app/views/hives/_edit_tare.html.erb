@@ -1,0 +1,14 @@
+<%
+  form_attributes = {
+    builder: ActiveAdmin::FormBuilder,
+    url: :update_scale_tare_admin_hive,
+    method: :post,
+    data: { confirm: 'Antes de continuar, asegurese de que la colmena este en su punto inicial, y que la ultima medida en el sistema sea con este peso. Esta acción tendra un efecto en futuras medidas' }
+  }
+%>
+
+<%= semantic_form_for :scale, form_attributes do |f| %>
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Actualizar tara' %>
+  <% end %>
+<% end %>

@@ -1,21 +1,23 @@
 class IncomingPacketService < ApplicationService
-  def initialize(packet)
-    @packet = packet
+  def initialize(topic, payload)
+    @topic = topic
+    @payload = payload
   end
 
   def call
-    return unless @packet
+    return unless @topic && @payload
 
-    Message.create(raw: "#{@packet.topic} --> #{@packet.payload}")
-    uuid = @packet.topic.split('/').first
+    message = Message.create(raw: "#{@topic} --> #{@payload}")
+    uuid = @topic.split('/').first
     regexp = /\[(.*?)\]\[(.*?)\]\[(.*?)\]{(.*?)}/
-    _, date, hive_uuid, subtopic, data = *@packet.payload.match(regexp)
+    _, date, hive_uuid, subtopic, data = *@payload.match(regexp)
 
     return unless date && hive_uuid && subtopic && data
     return if data&.empty?
 
     hive = Hive.find_or_create_by(uuid: hive_uuid)
     hive.update!(apiary: Apiary.find_by(uuid: uuid))
+    message.update!(hive: hive)
 
     date = DateTime.parse(date.gsub(/[\(\)]/, ''))
 

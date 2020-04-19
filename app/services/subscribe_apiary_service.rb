@@ -7,7 +7,7 @@ class SubscribeApiaryService < ApplicationService
 
   def call
     @uuids.each do |uuid|
-      @mqtt_client.subscribe("#{uuid}/data", IncomingPacketService)
+      @mqtt_client.subscribe("#{uuid}/data", IncomingPacketJob)
     end
   end
 end

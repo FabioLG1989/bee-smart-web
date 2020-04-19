@@ -1,0 +1,14 @@
+= form_for @apiary, url: add_or_create_admin_apiaries_path, html: { method: :post, class: "formtastic" } do |f|
+  fieldset.inputs
+    legend
+      span Agregar Apiario
+    ol
+      li
+        = f.text_field :uuid
+        = f.label :uuid, 'UUID'
+  fieldset.actions
+    ol
+      li.action.input_action
+        = f.submit t('active_admin.actions.submit')
+      li.cancel
+        = link_to t('active_admin.actions.cancel'), admin_apiaries_path

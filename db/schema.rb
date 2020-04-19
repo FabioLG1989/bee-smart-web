@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_184121) do
+ActiveRecord::Schema.define(version: 2020_04_19_060611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,12 +30,18 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
   end
 
   create_table "apiaries", force: :cascade do |t|
-    t.bigint "user_id"
     t.string "description"
     t.string "uuid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_apiaries_on_user_id"
+    t.string "name"
+  end
+
+  create_table "apiaries_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "apiary_id", null: false
+    t.index ["apiary_id"], name: "index_apiaries_users_on_apiary_id"
+    t.index ["user_id"], name: "index_apiaries_users_on_user_id"
   end
 
   create_table "doors", force: :cascade do |t|
@@ -53,6 +59,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
     t.bigint "apiary_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
     t.index ["apiary_id"], name: "index_hives_on_apiary_id"
   end
 
@@ -60,6 +67,8 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
     t.string "raw"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "hive_id"
+    t.index ["hive_id"], name: "index_messages_on_hive_id"
   end
 
   create_table "scale_measures", force: :cascade do |t|
@@ -78,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
     t.bigint "hive_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "graph_points", default: 1000
     t.index ["hive_id"], name: "index_scales_on_hive_id"
   end
 
@@ -85,6 +95,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
     t.bigint "hive_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "graph_points", default: 1000
     t.index ["hive_id"], name: "index_temperature_grids_on_hive_id"
   end
 
@@ -124,9 +135,9 @@ ActiveRecord::Schema.define(version: 2020_04_18_184121) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "apiaries", "users"
   add_foreign_key "doors", "hives"
   add_foreign_key "hives", "apiaries"
+  add_foreign_key "messages", "hives"
   add_foreign_key "scale_measures", "scales"
   add_foreign_key "scales", "hives"
   add_foreign_key "temperature_grids", "hives"

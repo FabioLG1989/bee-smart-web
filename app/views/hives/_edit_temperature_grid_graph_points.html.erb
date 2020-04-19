@@ -1,0 +1,16 @@
+<%
+  form_attributes = {
+    builder: ActiveAdmin::FormBuilder,
+    url: :update_temperature_grid_graph_points_admin_hive,
+    method: :post,
+  }
+%>
+
+<%= semantic_form_for :temperature_grid, form_attributes do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :graph_points, as: :number, label: 'Puntos a graficar', input_html: { value: hive.temperature_grid.graph_points } %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Actualizar puntos a graficar' %>
+  <% end %>
+<% end %>

@@ -12,7 +12,7 @@ class MqttClient
   end
 
   def subscribe(topic, service, qos: 2)
-    subscription_callback = lambda { |packet| service.send(:call, packet) }
+    subscription_callback = lambda { |packet| service.perform_later(packet.topic, packet.payload) }
     @client.subscribe([topic, qos])
     @client.add_topic_callback(topic, subscription_callback)
   end
