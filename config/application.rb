@@ -19,10 +19,10 @@ module BeeSmart
 
 
     config.after_initialize do
-      if ActiveRecord::Base.connection.data_source_exists? 'apiaries'
-        config.mqtt_client = MqttClient.new(config.mqtt_client_configuration)
-        SubscribeApiaryService.call
-      end
+#      if ActiveRecord::Base.connection.data_source_exists? 'apiaries'
+#        config.mqtt_client = MqttClient.new(config.mqtt_client_configuration)
+#        SubscribeApiaryService.call
+#      end
     end
 
     ActionMailer::Base.smtp_settings = {
