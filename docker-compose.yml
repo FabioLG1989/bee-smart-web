@@ -23,7 +23,7 @@ services:
     env_file: .env
     environment:
       - RAILS_ENV=production
-    # volumes:
-    #   - ./:/beesmart
+    volumes:
+      - ./:/beesmart
     depends_on:
       - postgres
