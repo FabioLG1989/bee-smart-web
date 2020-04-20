@@ -28,6 +28,8 @@ test:
 
 production:
   <<: *default
-  database: bee_smart_production
-  username: beesmart
+  database: <%= ENV['BEESMART_DATABASE_NAME'] %>
+  username: <%= ENV['BEESMART_DATABASE_USERNAME'] %>
   password: <%= ENV['BEESMART_DATABASE_PASSWORD'] %>
+  host: <%= ENV['BEESMART_DATABASE_HOST'] %>
+  port: <%= ENV['BEESMART_DATABASE_PORT'] %>
