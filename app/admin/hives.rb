@@ -46,7 +46,7 @@ ActiveAdmin.register Hive do
   member_action :update_scale_slope, method: :post do
     scale_id = params[:id]
     scale = Scale.find(scale_id)
-    known_weight = params[:scale][:known_weight]&.to_i
+    known_weight = params[:scale][:known_weight]&.to_f
     return unless known_weight && known_weight != 0
     return unless scale.scale_measures.last && scale.tare
     slope = (scale.scale_measures.last.raw - scale.tare) / known_weight
