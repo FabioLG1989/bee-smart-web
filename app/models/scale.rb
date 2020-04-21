@@ -4,7 +4,7 @@ class Scale < ApplicationRecord
   validates :graph_points, presence: true, numericality: true
 
   def last_weight_measure
-    scale_measures.last.value
+    scale_measures.last&.value
   end
 
   def last_weight_measure_date
