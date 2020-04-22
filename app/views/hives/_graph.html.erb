@@ -1,1 +1,1 @@
-<%= line_chart data, min: 0, max: data.max_by{ |k, v| v }[1] if data %>
+<%= line_chart data, min: 0, max: data.max_by{ |k, v| v }[1] if data && data.max_by{ |k, v| v } %>
