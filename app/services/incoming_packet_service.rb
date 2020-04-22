@@ -6,6 +6,7 @@ class IncomingPacketService < ApplicationService
 
   def call
     return unless @topic && @payload
+    return if Message.find_by(raw: "#{@topic} --> #{@payload}")
 
     message = Message.create!(raw: "#{@topic} --> #{@payload}")
 
