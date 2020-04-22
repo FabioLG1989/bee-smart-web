@@ -9,7 +9,7 @@ class ProcessTemperatureMessageService < ApplicationService
   def call
     sensors_data = @message.split('|').filter{ |data| !data.empty? }
 
-    TemperatureGrid.create!(hive: @hive) unless @hive.temperature_grid
+    TemperatureGrid.find_or_create_by(hive_id: @hive.id)
 
     sensors_data.each do |sensor_data|
       sensor_uuid, sensor_temperature = sensor_data.split('-')
