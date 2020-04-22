@@ -7,7 +7,8 @@ class IncomingPacketService < ApplicationService
   def call
     return unless @topic && @payload
 
-    message = Message.create(raw: "#{@topic} --> #{@payload}")
+    message = Message.create!(raw: "#{@topic} --> #{@payload}")
+
     uuid = @topic.split('/').first
     regexp = /\[(.*?)\]\[(.*?)\]\[(.*?)\]{(.*?)}/
     _, date, hive_uuid, subtopic, data = *@payload.match(regexp)
