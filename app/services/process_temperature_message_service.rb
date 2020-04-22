@@ -21,9 +21,12 @@ class ProcessTemperatureMessageService < ApplicationService
 
     sensors_data.each do |sensor_data|
       sensor_uuid, sensor_temperature = sensor_data.split('-')
-      sensor = TemperatureSensor.find_or_create_by(uuid: sensor_uuid)
-      sensor.update!(temperature_grid: @temperature_grid) unless sensor.temperature_grid
-      TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_temperature, measured_at: @date)
+      sensor_uuid = "#{@hive.uuid}:#{sensor_uuid}"
+      # if sensor_temperature != 0
+        sensor = TemperatureSensor.find_or_create_by(uuid: sensor_uuid)
+        sensor.update!(temperature_grid: @temperature_grid) unless sensor.temperature_grid
+        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_temperature, measured_at: @date)
+      # end
     end
   end
 end

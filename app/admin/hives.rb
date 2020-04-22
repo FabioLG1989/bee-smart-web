@@ -192,65 +192,67 @@ ActiveAdmin.register Hive do
       end
     end
 
-    panel 'Temperatura' do
-      render partial: 'hives/export_csv', locals: { hive: hive, class_name: 'temperature' }
-      div do
-        render partial: 'hives/edit_temperature_grid_graph_points', locals: { hive: hive }
-      end
-      columns do
-        (0..2).each do |index|
-          column do
-            data = hive.temperature_grid_graph_data
-            sensors = hive.temperature_grid_working_positions
-            attributes_table do
-              row :existente do
-                sensors[index] != nil
+    if hive.temperature_grid
+      panel 'Temperatura' do
+        render partial: 'hives/export_csv', locals: { hive: hive, class_name: 'temperature' }
+        div do
+          render partial: 'hives/edit_temperature_grid_graph_points', locals: { hive: hive }
+        end
+        columns do
+          (0..2).each do |index|
+            column do
+              data = hive.temperature_grid_graph_data
+              sensors = hive.temperature_grid_working_positions
+              attributes_table do
+                row :existente do
+                  sensors[index] != nil
+                end
+                row :activo do
+                  sensors[index]
+                end
               end
-              row :activo do
-                sensors[index]
-              end
+              render partial: 'hives/graph', locals: {
+                data: hive.temperature_grid_graph_data[index]
+              } if hive.temperature_grid_graph_data[index]
             end
-            render partial: 'hives/graph', locals: {
-              data: hive.temperature_grid_graph_data[index]
-            } if hive.temperature_grid_graph_data[index]
           end
         end
-      end
-      columns do
-        (3..5).each do |index|
-          column do
-            data = hive.temperature_grid_graph_data
-            sensors = hive.temperature_grid_working_positions
-            attributes_table do
-              row :existente do
-                sensors[index] != nil
+        columns do
+          (3..5).each do |index|
+            column do
+              data = hive.temperature_grid_graph_data
+              sensors = hive.temperature_grid_working_positions
+              attributes_table do
+                row :existente do
+                  sensors[index] != nil
+                end
+                row :activo do
+                  sensors[index]
+                end
               end
-              row :activo do
-                sensors[index]
-              end
+              render partial: 'hives/graph', locals: {
+                data: hive.temperature_grid_graph_data[index]
+              } if hive.temperature_grid_graph_data[index]
             end
-            render partial: 'hives/graph', locals: {
-              data: hive.temperature_grid_graph_data[index]
-            } if hive.temperature_grid_graph_data[index]
           end
         end
-      end
-      columns do
-        (6..8).each do |index|
-          column do
-            data = hive.temperature_grid_graph_data
-            sensors = hive.temperature_grid_working_positions
-            attributes_table do
-              row :existente do
-                sensors[index] != nil
+        columns do
+          (6..8).each do |index|
+            column do
+              data = hive.temperature_grid_graph_data
+              sensors = hive.temperature_grid_working_positions
+              attributes_table do
+                row :existente do
+                  sensors[index] != nil
+                end
+                row :activo do
+                  sensors[index]
+                end
               end
-              row :activo do
-                sensors[index]
-              end
+              render partial: 'hives/graph', locals: {
+                data: hive.temperature_grid_graph_data[index]
+              } if hive.temperature_grid_graph_data[index]
             end
-            render partial: 'hives/graph', locals: {
-              data: hive.temperature_grid_graph_data[index]
-            } if hive.temperature_grid_graph_data[index]
           end
         end
       end
