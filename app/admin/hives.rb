@@ -39,7 +39,8 @@ ActiveAdmin.register Hive do
     scale = Scale.find(scale_id)
     return unless scale.scale_measures.last
     tare = scale.scale_measures.last.raw
-    scale.update(tare: tare)
+    scale.update(next_tare: true)
+    GetResourceService.call(scale.hive, ApplicationService::RESOURCE_WEIGHT)
     redirect_to admin_hive_path(scale.hive)
   end
 
@@ -49,8 +50,8 @@ ActiveAdmin.register Hive do
     known_weight = params[:scale][:known_weight]&.to_f
     return unless known_weight && known_weight != 0
     return unless scale.scale_measures.last && scale.tare
-    slope = (scale.scale_measures.last.raw - scale.tare) / known_weight
-    scale.update(slope: slope)
+    GetResourceService.call(scale.hive, ApplicationService::RESOURCE_WEIGHT)
+    scale.update(next_slope: known_weight)
     redirect_to admin_hive_path(scale.hive)
   end
 

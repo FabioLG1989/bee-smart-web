@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_062200) do
+ActiveRecord::Schema.define(version: 2020_04_22_161340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 2020_04_19_062200) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "graph_points", default: 1000
+    t.boolean "next_tare", default: false
+    t.decimal "next_slope"
     t.index ["hive_id"], name: "index_scales_on_hive_id"
   end
 
