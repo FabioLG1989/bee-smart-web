@@ -3,6 +3,8 @@ class TemperatureSensor < ApplicationRecord
   has_many :temperature_measures, dependent: :destroy
   delegate :temperature_sensors_sorted, :graph_points, to: :temperature_grid, prefix: true, allow_nil: true
 
+  validates :uuid, uniqueness: true, presence: true
+
   def index
     temperature_grid_temperature_sensors_sorted.find_index(self)
   end
