@@ -20,16 +20,18 @@ ActiveAdmin.register Hive do
 
   member_action :update_scale_graph_points, method: :post do
     graph_points = params[:scale][:graph_points]
-    scale_id = params[:id]
-    scale = Scale.find(scale_id)
+    hive_id = params[:id]
+    hive = Hive.find(hive_id)
+    scale = hive.scale
     scale.update(graph_points: graph_points)
     redirect_to admin_hive_path(scale.hive)
   end
 
   member_action :update_temperature_grid_graph_points, method: :post do
     graph_points = params[:temperature_grid][:graph_points]
-    temperature_grid_id = params[:id]
-    temperature_grid = TemperatureGrid.find(temperature_grid_id)
+    hive_id = params[:id]
+    hive = Hive.find(hive_id)
+    temperature_grid = hive.temperature_grid
     temperature_grid.update(graph_points: graph_points)
     redirect_to admin_hive_path(temperature_grid.hive)
   end
