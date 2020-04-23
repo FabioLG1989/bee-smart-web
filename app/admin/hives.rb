@@ -171,7 +171,9 @@ ActiveAdmin.register Hive do
     if hive.scale
       panel 'Balanza' do
         render partial: 'hives/graph', locals: {
-          data: hive.scale_graph_data
+          data: hive.scale_graph_data,
+          min: 0,
+          max: 200
         } if hive.scale_graph_data
         columns do
           column do
@@ -214,7 +216,9 @@ ActiveAdmin.register Hive do
                 end
               end
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index]
+                data: hive.temperature_grid_graph_data[index],
+                min: 0,
+                max: 50
               } if hive.temperature_grid_graph_data[index]
             end
           end
@@ -233,7 +237,9 @@ ActiveAdmin.register Hive do
                 end
               end
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index]
+                data: hive.temperature_grid_graph_data[index],
+                min: 0,
+                max: 50
               } if hive.temperature_grid_graph_data[index]
             end
           end
@@ -252,7 +258,9 @@ ActiveAdmin.register Hive do
                 end
               end
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index]
+                data: hive.temperature_grid_graph_data[index],
+                min: 0,
+                max: 50
               } if hive.temperature_grid_graph_data[index]
             end
           end
