@@ -106,7 +106,7 @@ ActiveAdmin.register Hive do
       hive.scale_calibrated
     end
     column :ultimo_peso do |hive|
-      "#{"%.1f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+      "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
     end
     column :puerta do |hive|
       "#{hive.door_status_to_s}"
@@ -141,7 +141,7 @@ ActiveAdmin.register Hive do
         hive.scale_calibrated
       end
       row :ultimo_peso do |hive|
-        "#{"%.1f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+        "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
       end
       row :puerta do |hive|
         "#{hive.door_status_to_s}"
