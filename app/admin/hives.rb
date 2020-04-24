@@ -93,7 +93,11 @@ ActiveAdmin.register Hive do
       hive.description
     end
     column :ultimo_promedio_de_temperatura do |hive|
-      "#{hive.last_temperature_measure} - #{hive.last_temperature_measure_date}"
+      "#{
+        "%.1f" % (hive.last_temperature_measure.filter {
+          |t| t
+        }.reduce(:+) / hive.temperature_grid_working_positions.count(true))
+      } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) > 0
     end
     column :sensores_de_temperatura_funcionando do |hive|
       "#{hive.temperature_grid_working_positions&.count(true)}/#{hive.temperature_grid_working_positions&.count}"
@@ -102,7 +106,7 @@ ActiveAdmin.register Hive do
       hive.scale_calibrated
     end
     column :ultimo_peso do |hive|
-      "#{hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+      "#{"%.1f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
     end
     column :puerta do |hive|
       "#{hive.door_status_to_s}"
@@ -124,7 +128,11 @@ ActiveAdmin.register Hive do
         hive.description
       end
       row :ultimo_promedio_de_temperatura do |hive|
-        "#{hive.last_temperature_measure} - #{hive.last_temperature_measure_date}"
+        "#{
+          "%.1f" % (hive.last_temperature_measure.filter {
+            |t| t
+          }.reduce(:+) / hive.temperature_grid_working_positions.count(true))
+        } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) > 0
       end
       row :sensores_de_temperatura_funcionando do |hive|
         "#{hive.temperature_grid_working_positions&.count(true)}/#{hive.temperature_grid_working_positions&.count}"
@@ -133,7 +141,7 @@ ActiveAdmin.register Hive do
         hive.scale_calibrated
       end
       row :ultimo_peso do |hive|
-        "#{hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+        "#{"%.1f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
       end
       row :puerta do |hive|
         "#{hive.door_status_to_s}"
@@ -170,11 +178,12 @@ ActiveAdmin.register Hive do
 
     if hive.scale
       panel 'Balanza' do
+        data = hive.scale_graph_data
         render partial: 'hives/graph', locals: {
-          data: hive.scale_graph_data,
+          data: data,
           min: 0,
           max: 200
-        } if hive.scale_graph_data
+        } if data
         columns do
           column do
             div do
@@ -202,10 +211,18 @@ ActiveAdmin.register Hive do
         div do
           render partial: 'hives/edit_temperature_grid_graph_points', locals: { hive: hive }
         end
+        div do
+          data = hive.temperature_grid.average_graph_data
+          render partial: 'hives/graph', locals: { ##TODO
+            data: data,
+            min: 0,
+            max: 50
+          } if data
+        end
+        all_data = hive.temperature_grid_graph_data
         columns do
           (0..2).each do |index|
             column do
-              data = hive.temperature_grid_graph_data
               sensors = hive.temperature_grid_working_positions
               attributes_table do
                 row :existente do
@@ -215,18 +232,18 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
               end
+              data = all_data[index]
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index],
+                data: data,
                 min: 0,
                 max: 50
-              } if hive.temperature_grid_graph_data[index]
+              } if data
             end
           end
         end
         columns do
           (3..5).each do |index|
             column do
-              data = hive.temperature_grid_graph_data
               sensors = hive.temperature_grid_working_positions
               attributes_table do
                 row :existente do
@@ -236,18 +253,18 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
               end
+              data = all_data[index]
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index],
+                data: data,
                 min: 0,
                 max: 50
-              } if hive.temperature_grid_graph_data[index]
+              } if data
             end
           end
         end
         columns do
           (6..8).each do |index|
             column do
-              data = hive.temperature_grid_graph_data
               sensors = hive.temperature_grid_working_positions
               attributes_table do
                 row :existente do
@@ -257,11 +274,12 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
               end
+              data = all_data[index]
               render partial: 'hives/graph', locals: {
-                data: hive.temperature_grid_graph_data[index],
+                data: data,
                 min: 0,
                 max: 50
-              } if hive.temperature_grid_graph_data[index]
+              } if data
             end
           end
         end

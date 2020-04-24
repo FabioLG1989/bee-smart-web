@@ -84,7 +84,11 @@ ActiveAdmin.register Apiary do
           hive.description
         end
         column :ultimo_promedio_de_temperatura do |hive|
-          "#{hive.last_temperature_measure} - #{hive.last_temperature_measure_date}"
+          "#{
+            "%.1f" % (hive.last_temperature_measure.filter {
+              |t| t
+            }.reduce(:+) / hive.temperature_grid_working_positions.count(true))
+          } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) > 0
         end
         column :sensores_de_temperatura_funcionando do |hive|
           "#{hive.temperature_grid_working_positions&.count(true)}/#{hive.temperature_grid_working_positions&.count}"
@@ -93,7 +97,7 @@ ActiveAdmin.register Apiary do
           hive.scale_calibrated
         end
         column :ultimo_peso do |hive|
-          "#{hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+          "#{"%.1f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
         end
         column :puerta do |hive|
           hive.door_status_to_s

@@ -38,6 +38,11 @@ class TemperatureGrid < ApplicationRecord
     result
   end
 
+  def average_graph_data
+    return nil if temperature_measures.empty?
+    temperature_measures.where.not(temperature: nil).group(:measured_at).limit(graph_points).average(:temperature)
+  end
+
   def csv_collection
     result = []
     temperature_sensors_sorted.each { |ts| result.append(ts.csv_collection) }
