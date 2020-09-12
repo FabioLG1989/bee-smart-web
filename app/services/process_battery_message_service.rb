@@ -1,4 +1,4 @@
-class ProcessWeightMessageService < ApplicationService
+class ProcessBatteryMessageService < ApplicationService
   def initialize(hive, message, date)
     @hive = hive
     @message = message
@@ -8,6 +8,6 @@ class ProcessWeightMessageService < ApplicationService
   end
 
   def call
-    ScaleMeasure.create!(battery: @battery, voltage: @message.to_i, measured_at: @date)
+    BatteryMeasure.create!(battery: @battery, voltage: @message.to_i, measured_at: @date)
   end
 end
