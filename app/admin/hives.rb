@@ -81,7 +81,6 @@ ActiveAdmin.register Hive do
       collection = hive.battery_csv_collection
       klass = Battery
     end
-  end
 
     respond_to do |format|
       format.csv { send_data klass.to_csv(collection.pluck(:id)), filename: "#{class_name}-#{Time.current}.csv" }
