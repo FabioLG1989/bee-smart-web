@@ -77,7 +77,11 @@ ActiveAdmin.register Hive do
     when 'weight'
       collection = hive.scale_csv_collection
       klass = ScaleMeasure
+    when 'battery'
+      collection = hive.battery_csv_collection
+      klass = Battery
     end
+  end
 
     respond_to do |format|
       format.csv { send_data klass.to_csv(collection.pluck(:id)), filename: "#{class_name}-#{Time.current}.csv" }
@@ -197,7 +201,7 @@ ActiveAdmin.register Hive do
         render partial: 'hives/graph', locals: {
           data: data,
           min: 0,
-          max: 200
+          max: 4000
         } if data
         columns do
           column do
