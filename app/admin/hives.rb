@@ -18,6 +18,15 @@ ActiveAdmin.register Hive do
     redirect_to admin_hive_path(hive)
   end
 
+  member_action :update_battery_graph_points, method: :post do
+    graph_points = params[:battery][:graph_points]
+    hive_id = params[:id]
+    hive = Hive.find(hive_id)
+    battery = hive.battery
+    battery.update(graph_points: graph_points)
+    redirect_to admin_hive_path(battery.hive)
+  end
+
   member_action :update_scale_graph_points, method: :post do
     graph_points = params[:scale][:graph_points]
     hive_id = params[:id]
@@ -105,6 +114,9 @@ ActiveAdmin.register Hive do
     column :balanza_calibrada do |hive|
       hive.scale_calibrated
     end
+    column :bateria_mV do |hive|
+      "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}"
+    end
     column :ultimo_peso do |hive|
       "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
     end
@@ -140,6 +152,9 @@ ActiveAdmin.register Hive do
       row :balanza_calibrada do |hive|
         hive.scale_calibrated
       end
+      row :bateria_mV do |hive|
+        "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}"
+      end
       row :ultimo_peso do |hive|
         "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
       end
@@ -171,6 +186,25 @@ ActiveAdmin.register Hive do
               method: :post,
               data: { confirm: 'Seguro que quiere abrir puerta?' }
             )
+          end
+        end
+      end
+    end
+
+    if hive.battery
+      panel 'Bateria' do
+        data = hive.battery_graph_data
+        render partial: 'hives/graph', locals: {
+          data: data,
+          min: 0,
+          max: 200
+        } if data
+        columns do
+          column do
+            div do
+              render partial: 'hives/edit_battery_graph_points', locals: { hive: hive }
+              render partial: 'hives/export_csv', locals: { hive: hive, class_name: 'battery' }
+            end
           end
         end
       end

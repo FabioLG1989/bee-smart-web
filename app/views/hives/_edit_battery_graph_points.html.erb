@@ -1,0 +1,16 @@
+<%
+  form_attributes = {
+    builder: ActiveAdmin::FormBuilder,
+    url: :update_battery_graph_points_admin_hive,
+    method: :post,
+  }
+%>
+
+<%= semantic_form_for :battery, form_attributes do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :graph_points, as: :number, label: 'Puntos a graficar', input_html: { value: hive.battery.graph_points } %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, label: 'Actualizar puntos a graficar' %>
+  <% end %>
+<% end %>

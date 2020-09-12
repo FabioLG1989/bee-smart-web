@@ -30,6 +30,8 @@ class IncomingPacketService < ApplicationService
       ProcessTemperatureMessageService.call(hive, data, date)
     when RESOURCE_WEIGHT
       ProcessWeightMessageService.call(hive, data, date)
+    when RESOURCE_BATTERY
+      ProcessBatteryMessageService.call(hive, data, date)
     end
   end
 end

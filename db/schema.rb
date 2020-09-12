@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_22_161340) do
+ActiveRecord::Schema.define(version: 2020_09_12_210932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,23 @@ ActiveRecord::Schema.define(version: 2020_04_22_161340) do
     t.bigint "apiary_id", null: false
     t.index ["apiary_id"], name: "index_apiaries_users_on_apiary_id"
     t.index ["user_id"], name: "index_apiaries_users_on_user_id"
+  end
+
+  create_table "batteries", force: :cascade do |t|
+    t.bigint "hive_id"
+    t.integer "graph_points", default: 1000
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hive_id"], name: "index_batteries_on_hive_id"
+  end
+
+  create_table "battery_measures", force: :cascade do |t|
+    t.decimal "voltage"
+    t.datetime "measured_at"
+    t.bigint "battery_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["battery_id"], name: "index_battery_measures_on_battery_id"
   end
 
   create_table "doors", force: :cascade do |t|
@@ -141,6 +158,8 @@ ActiveRecord::Schema.define(version: 2020_04_22_161340) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "batteries", "hives"
+  add_foreign_key "battery_measures", "batteries"
   add_foreign_key "doors", "hives"
   add_foreign_key "hives", "apiaries"
   add_foreign_key "messages", "hives"
