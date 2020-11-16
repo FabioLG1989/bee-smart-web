@@ -109,7 +109,8 @@ ActiveAdmin.register Hive do
         "%.1f" % (hive.last_temperature_measure.filter {
           |t| t
         }.reduce(:+) / hive.temperature_grid_working_positions.count(true))
-      } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) > 0
+      } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) &&
+                                                    hive.temperature_grid_working_positions&.count(true) > 0
     end
     column :sensores_de_temperatura_funcionando do |hive|
       "#{hive.temperature_grid_working_positions&.count(true)}/#{hive.temperature_grid_working_positions&.count}"
