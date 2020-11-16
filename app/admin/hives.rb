@@ -119,10 +119,10 @@ ActiveAdmin.register Hive do
       hive.scale_calibrated
     end
     column :bateria_mV do |hive|
-      "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}"
+      "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}" if hive.last_battery_measure
     end
     column :ultimo_peso do |hive|
-      "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+      "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}" if hive.last_weight_measure
     end
     column :puerta do |hive|
       "#{hive.door_status_to_s}"
@@ -148,7 +148,8 @@ ActiveAdmin.register Hive do
           "%.1f" % (hive.last_temperature_measure.filter {
             |t| t
           }.reduce(:+) / hive.temperature_grid_working_positions.count(true))
-        } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) > 0
+        } - #{hive.last_temperature_measure_date}" if hive.temperature_grid_working_positions&.count(true) &&
+                                                      hive.temperature_grid_working_positions&.count(true) > 0
       end
       row :sensores_de_temperatura_funcionando do |hive|
         "#{hive.temperature_grid_working_positions&.count(true)}/#{hive.temperature_grid_working_positions&.count}"
@@ -157,10 +158,10 @@ ActiveAdmin.register Hive do
         hive.scale_calibrated
       end
       row :bateria_mV do |hive|
-        "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}"
+        "#{"%d" % hive.last_battery_measure} - #{hive.last_battery_measure_date}" if hive.last_battery_measure
       end
       row :ultimo_peso do |hive|
-        "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}"
+        "#{"%.3f" % hive.last_weight_measure} - #{hive.last_weight_measure_date}" if hive.last_weight_measure
       end
       row :puerta do |hive|
         "#{hive.door_status_to_s}"
