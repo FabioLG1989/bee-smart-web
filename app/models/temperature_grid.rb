@@ -40,7 +40,7 @@ class TemperatureGrid < ApplicationRecord
 
   def average_graph_data
     return nil if temperature_measures.empty?
-    temperature_measures.where.not(temperature: nil).group(:measured_at).last(graph_points).average(:temperature)
+    temperature_measures.where.not(temperature: nil).group(:measured_at).order(measured_at: :desc).limit(graph_points).average(:temperature)
   end
 
   def csv_collection
