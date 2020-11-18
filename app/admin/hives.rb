@@ -1,9 +1,8 @@
 def update_meassure(name, resource)
   link_to(
     "Actualizar #{name}",
-    update_resource_admin_hive_path(hive),
-    method: :post,
-    data: { mqtt_resource: resource }
+    update_resource_admin_hive_path(hive, res: resource),
+    method: :post
   )
 end
 
@@ -16,7 +15,7 @@ ActiveAdmin.register Hive do
   member_action :update_resource, method: :post do
     p params
     hive = Hive.find(resource.id)
-    GetResourceService.call(scale.hive, params[:mqtt_resource])
+    GetResourceService.call(scale.hive, params[:res])
     redirect_to admin_hive_path(hive)
   end
 
