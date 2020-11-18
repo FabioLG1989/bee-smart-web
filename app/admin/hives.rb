@@ -1,7 +1,7 @@
 def update_meassure(name, resource)
   link_to(
     "Actualizar #{name}",
-    update_resource_admin_hive_path(hive, res: resource),
+    update_resource_measure_admin_hive_path(hive, res: resource),
     method: :post
   )
 end
@@ -12,7 +12,7 @@ ActiveAdmin.register Hive do
 
   actions :edit, :update, :show, :index
 
-  member_action :update_resource, method: :post do
+  member_action :update_resource_measure, method: :post do
     hive = Hive.find(resource.id)
     hive.get_resource(params[:res])
     redirect_to admin_hive_path(hive)
@@ -192,7 +192,7 @@ ActiveAdmin.register Hive do
       row :resetear_colmena do |hive|
         link_to(
           'RESETEAR COLMENA',
-          update_resource_admin_hive_path(hive, res: ApplicationService::RESOURCE_REBOOT),
+          update_resource_measure_admin_hive_path(hive, res: ApplicationService::RESOURCE_REBOOT),
           method: :post,
           data: { confirm: 'Seguro que quiere resetear la colmena?' }
         )
