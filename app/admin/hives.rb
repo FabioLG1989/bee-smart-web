@@ -1,17 +1,17 @@
+def update_meassure(name, resource)
+  link_to(
+    "Actualizar #{name}",
+    close_door_admin_hive_path(hive),
+    method: :post,
+    data: { mqtt_resource: resource }
+  )
+end
+
 ActiveAdmin.register Hive do
   permit_params :description, :name
   menu label: 'Colmenas'
 
   actions :edit, :update, :show, :index
-
-  def update_meassure(name, resource)
-    link_to(
-      "Actualizar #{name}",
-      close_door_admin_hive_path(hive),
-      method: :post,
-      data: { mqtt_resource: resource }
-    )
-  end
 
   member_action :update_resource, method: :post do
     p params
