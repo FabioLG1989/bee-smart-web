@@ -1,7 +1,7 @@
 def update_meassure(name, resource)
   link_to(
     "Actualizar #{name}",
-    close_door_admin_hive_path(hive),
+    update_resource_admin_hive_path(hive),
     method: :post,
     data: { mqtt_resource: resource }
   )
