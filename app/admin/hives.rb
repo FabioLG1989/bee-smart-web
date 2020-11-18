@@ -191,7 +191,7 @@ ActiveAdmin.register Hive do
           "#{update_meassure("Peso", ApplicationService::RESOURCE_WEIGHT)}",
           "#{update_meassure("Bateria", ApplicationService::RESOURCE_BATTERY)}",
           "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}"
-        ].join(", ")
+        ].join(", ").html_safe
       end
     end
 
