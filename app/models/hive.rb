@@ -47,7 +47,8 @@ class Hive < ApplicationRecord
     DoorActuateCommandService.call(door)
   end
 
-  def reboot
+  def reboot!
+    update!(last_reboot: Time.current)
     get_resource(ApplicationService::RESOURCE_REBOOT)
   end
 end
