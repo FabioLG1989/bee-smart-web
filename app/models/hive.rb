@@ -14,4 +14,40 @@ class Hive < ApplicationRecord
   delegate :status_to_s, :last_command_to_s, to: :door, prefix: true, allow_nil: true
 
   has_many :messages
+
+  def get_resource(resource)
+    GetResourceService.call(self, resource)
+  end
+
+  def get_temperature
+    get_resource(ApplicationService::RESOURCE_TEMPERATURE)
+  end
+
+  def get_weight
+    get_resource(ApplicationService::RESOURCE_WEIGHT)
+  end
+
+  def get_battery
+    get_resource(ApplicationService::RESOURCE_BATTERY)
+  end
+
+  def get_door
+    get_resource(ApplicationService::RESOURCE_DOOR)
+  end
+
+  def close_door!
+    return unless door
+    door.last_command_close!
+    DoorActuateCommandService.call(door)
+  end
+
+  def open_door!
+    return unless door
+    door.last_command_open!
+    DoorActuateCommandService.call(door)
+  end
+
+  def reboot
+    get_resource(ApplicationService::RESOURCE_REBOOT)
+  end
 end

@@ -14,21 +14,19 @@ ActiveAdmin.register Hive do
 
   member_action :update_resource, method: :post do
     hive = Hive.find(resource.id)
-    GetResourceService.call(hive, params[:res])
+    hive.get_resource(params[:res])
     redirect_to admin_hive_path(hive)
   end
 
   member_action :open_door, method: :post do
     hive = Hive.find(resource.id)
-    hive&.door&.last_command_open!
-    DoorActuateCommandService.call(hive&.door)
+    hive.open_door!
     redirect_to admin_hive_path(hive)
   end
 
   member_action :close_door, method: :post do
     hive = Hive.find(resource.id)
-    hive&.door&.last_command_close!
-    DoorActuateCommandService.call(hive&.door)
+    hive.close_door!
     redirect_to admin_hive_path(hive)
   end
 
