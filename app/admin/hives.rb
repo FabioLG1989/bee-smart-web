@@ -188,9 +188,16 @@ ActiveAdmin.register Hive do
           "#{update_meassure("Temperatura", ApplicationService::RESOURCE_TEMPERATURE)}",
           "#{update_meassure("Peso", ApplicationService::RESOURCE_WEIGHT)}",
           "#{update_meassure("Bateria", ApplicationService::RESOURCE_BATTERY)}",
-          "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}",
-          "#{update_meassure("RESETEAR COLMENA", ApplicationService::RESOURCE_REBOOT)}"
+          "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}"
         ].join(", ").html_safe
+      end
+      row :resetear_colmena do |hive|
+        link_to(
+          'RESETEAR COLMENA',
+          update_resource_admin_hive_path(hive, res: ApplicationService::RESOURCE_REBOOT),
+          method: :post,
+          data: { confirm: 'Seguro que quiere resetear la colmena?' }
+        )
       end
     end
 
