@@ -14,8 +14,9 @@ ActiveAdmin.register Hive do
 
   member_action :update_resource, method: :post do
     p params
+    p params[:res]
     hive = Hive.find(resource.id)
-    GetResourceService.call(scale.hive, params[:res])
+    GetResourceService.call(hive, params[:res])
     redirect_to admin_hive_path(hive)
   end
 
