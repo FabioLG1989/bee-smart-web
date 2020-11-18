@@ -4,6 +4,22 @@ ActiveAdmin.register Hive do
 
   actions :edit, :update, :show, :index
 
+  def update_meassure(name, resource)
+    link_to(
+      "Actualizar #{name}",
+      close_door_admin_hive_path(hive),
+      method: :post,
+      data: { mqtt_resource: resource }
+    )
+  end
+
+  member_action :update_resource, method: :post do
+    p params
+    hive = Hive.find(resource.id)
+    GetResourceService.call(scale.hive, params[:mqtt_resource])
+    redirect_to admin_hive_path(hive)
+  end
+
   member_action :open_door, method: :post do
     hive = Hive.find(resource.id)
     hive&.door&.last_command_open!
@@ -168,6 +184,14 @@ ActiveAdmin.register Hive do
       end
       row :ultimo_comando_a_puerta do |hive|
         hive.door_last_command_to_s
+      end
+      row :solicitar_medida_actual do |hive|
+        [
+          "#{update_meassure("Temperatura", ApplicationService::RESOURCE_TEMPERATURE)}",
+          "#{update_meassure("Peso", ApplicationService::RESOURCE_WEIGHT)}",
+          "#{update_meassure("Bateria", ApplicationService::RESOURCE_BATTERY)}",
+          "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}"
+        ].join(", ")
       end
     end
 
