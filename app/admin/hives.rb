@@ -13,8 +13,6 @@ ActiveAdmin.register Hive do
   actions :edit, :update, :show, :index
 
   member_action :update_resource, method: :post do
-    p params
-    p params[:res]
     hive = Hive.find(resource.id)
     GetResourceService.call(hive, params[:res])
     redirect_to admin_hive_path(hive)
@@ -190,7 +188,8 @@ ActiveAdmin.register Hive do
           "#{update_meassure("Temperatura", ApplicationService::RESOURCE_TEMPERATURE)}",
           "#{update_meassure("Peso", ApplicationService::RESOURCE_WEIGHT)}",
           "#{update_meassure("Bateria", ApplicationService::RESOURCE_BATTERY)}",
-          "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}"
+          "#{update_meassure("Puerta", ApplicationService::RESOURCE_DOOR)}",
+          "#{update_meassure("RESETEAR COLMENA", ApplicationService::RESOURCE_REBOOT)}"
         ].join(", ").html_safe
       end
     end

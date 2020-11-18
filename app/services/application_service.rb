@@ -3,6 +3,7 @@ class ApplicationService
   RESOURCE_TEMPERATURE = 'sensors/temperature/all'
   RESOURCE_WEIGHT = 'sensors/weight'
   RESOURCE_BATTERY = 'sensors/battery'
+  RESOURCE_REBOOT = 'commands/reboot'
 
   def self.call(*args, &block)
     service = new(*args, &block)
