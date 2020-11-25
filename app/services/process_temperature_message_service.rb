@@ -8,7 +8,7 @@ class ProcessTemperatureMessageService < ApplicationService
 
   def call
     sensors_data = @message.split('|').filter{ |data| !data.empty? }
-    @hive.reboot! if sensors_data.all? { |d| d.to_f == 0 } && @hive.last_reboot - Time.current > 1.hour
+    @hive.reboot! if sensors_data.any? { |d| d.to_f == 0 } && Time.current - @hive.last_reboot > 15.minutes
 
     TemperatureGrid.find_or_create_by(hive_id: @hive.id)
     i = 0
