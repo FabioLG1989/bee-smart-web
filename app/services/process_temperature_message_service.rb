@@ -21,7 +21,7 @@ class ProcessTemperatureMessageService < ApplicationService
         sensor_data = [integer, decimal].join('.')
         sensor = TemperatureSensor.find_or_create_by(uuid: sensor_uuid)
         sensor.update!(temperature_grid: @hive.temperature_grid) unless sensor.temperature_grid
-        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: unflip_bits(sensor, sensor_data), measured_at: @date)
+        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_data, measured_at: @date) unless flipped_bit(sensor, sensor_data)
       end
       i += 1
     end
@@ -33,9 +33,8 @@ class ProcessTemperatureMessageService < ApplicationService
 
   def unflip_bits(sensor, measure)
     last_valid_measure = sensor.temperature_measures.last
-    return measure unless last_valid_measure
+    return false unless last_valid_measure
     difference = measure.to_f - last_valid_measure.temperature
-    return measure.to_f - difference.round if [4, 8, 16, 32, 64].include?(difference.round.abs)
-    measure
+    return [4, 8, 16, 32, 64].include?(difference.round.abs) && Time.current - last_valid_measure.measured_at > 15.minutes
   end
 end
