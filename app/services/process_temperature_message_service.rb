@@ -34,7 +34,7 @@ class ProcessTemperatureMessageService < ApplicationService
   def unflip_bits(sensor, measure)
     last_valid_measure = sensor.temperature_measures.last
     return measure unless last_valid_measure
-    difference = measure.to_f - last_valid_measure.to_f
+    difference = measure.to_f - last_valid_measure.temperature
     return measure.to_f - difference.round if [4, 8, 16, 32, 64].include?(difference.round.abs)
     measure
   end
