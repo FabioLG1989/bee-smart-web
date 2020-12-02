@@ -15,15 +15,27 @@ class ProcessTemperatureMessageService < ApplicationService
 
     sensors_data.each do |sensor_data|
       sensor_uuid = "#{@hive.uuid}:#{i}"
-      if sensor_data.to_f != 0.0 && sensor_data.to_i != 127
+      if valid_meassure
         integer, decimal = sensor_data.split('.')
         decimal = "%.2f" % (decimal.to_i * 10.0/8)
         sensor_data = [integer, decimal].join('.')
         sensor = TemperatureSensor.find_or_create_by(uuid: sensor_uuid)
         sensor.update!(temperature_grid: @hive.temperature_grid) unless sensor.temperature_grid
-        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_data, measured_at: @date)
+        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: unflip_bits(sensor, sensor_data), measured_at: @date)
       end
       i += 1
     end
+  end
+
+  def valid_meassure
+    sensor_data.to_f != 0.0 && sensor_data.to_i != 127
+  end
+
+  def unflip_bits(measure, sensor)
+    last_valid_measure = sensor.temperature_measures.last
+    return measure unless last_valid_measure
+    difference = measure - last_valid_measure
+    return measure - difference.round if [4, 8, 16, 32, 64].include?(difference.round.abs)
+    measure
   end
 end

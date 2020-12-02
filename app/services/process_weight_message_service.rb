@@ -8,6 +8,11 @@ class ProcessWeightMessageService < ApplicationService
   end
 
   def call
+    if @message.to_i(16) == 0
+      @hive.reboot! if Time.current - @hive.last_reboot > 60.minutes
+      return
+    end
+
     @scale.update!(next_tare: false, tare: @message.to_i(16)) if @scale.next_tare
 
     @scale.update!(next_slope: nil, slope: (@message.to_i(16) - @scale.tare) / @scale.next_slope) if @scale.next_slope
