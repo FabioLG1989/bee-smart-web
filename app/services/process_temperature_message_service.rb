@@ -15,7 +15,7 @@ class ProcessTemperatureMessageService < ApplicationService
 
     sensors_data.each do |sensor_data|
       sensor_uuid = "#{@hive.uuid}:#{i}"
-      if valid_meassure
+      if valid_meassure(sensor_data)
         integer, decimal = sensor_data.split('.')
         decimal = "%.2f" % (decimal.to_i * 10.0/8)
         sensor_data = [integer, decimal].join('.')
@@ -27,7 +27,7 @@ class ProcessTemperatureMessageService < ApplicationService
     end
   end
 
-  def valid_meassure
+  def valid_meassure(sensor_data)
     sensor_data.to_f != 0.0 && sensor_data.to_i != 127
   end
 
