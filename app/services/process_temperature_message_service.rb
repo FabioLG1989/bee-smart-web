@@ -35,6 +35,6 @@ class ProcessTemperatureMessageService < ApplicationService
     last_valid_measure = sensor.temperature_measures.last
     return false unless last_valid_measure
     difference = measure.to_f - last_valid_measure.temperature
-    return [4, 8, 16, 32, 64].include?(difference.round.abs) && Time.current - last_valid_measure.measured_at > 15.minutes
+    return [4, 8, 16, 32, 64].include?(difference.round.abs) && Time.current - last_valid_measure.measured_at < 15.minutes
   end
 end
