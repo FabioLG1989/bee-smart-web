@@ -31,7 +31,7 @@ class ProcessTemperatureMessageService < ApplicationService
     sensor_data.to_f != 0.0 && sensor_data.to_i != 127
   end
 
-  def unflip_bits(measure, sensor)
+  def unflip_bits(sensor, measure)
     last_valid_measure = sensor.temperature_measures.last
     return measure unless last_valid_measure
     difference = measure - last_valid_measure
