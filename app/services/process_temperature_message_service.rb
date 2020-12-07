@@ -21,20 +21,13 @@ class ProcessTemperatureMessageService < ApplicationService
         sensor_data = [integer, decimal].join('.')
         sensor = TemperatureSensor.find_or_create_by(uuid: sensor_uuid)
         sensor.update!(temperature_grid: @hive.temperature_grid) unless sensor.temperature_grid
-        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_data, measured_at: @date) unless flipped_bit(sensor, sensor_data)
+        TemperatureMeasure.create!(temperature_sensor: sensor, temperature: sensor_data, measured_at: @date)
       end
       i += 1
     end
   end
 
   def valid_meassure(sensor_data)
-    sensor_data.to_f != 0.0 && sensor_data.to_i != 127
-  end
-
-  def flipped_bit(sensor, measure)
-    last_valid_measure = sensor.temperature_measures.last
-    return false unless last_valid_measure
-    difference = measure.to_f - last_valid_measure.temperature
-    return [4, 8, 16, 32, 64].include?(difference.round.abs) && Time.current - last_valid_measure.measured_at < 15.minutes
+    sensor_data.to_f != 0.0 && sensor_data.to_i < 63
   end
 end
