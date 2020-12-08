@@ -11,8 +11,10 @@ class ProcessDoorMessageService < ApplicationService
     return if @message.empty?
     if @message.to_i == 0
       @door.status_closed!
+      @door.hive.open_door! if @door&.hive&.last_command_open?
     elsif @message.to_i == 1
       @door.status_opened!
+      @door.hive.close_door! if @door&.hive&.last_command_close?
     else
       @door.status_unkown!
     end
