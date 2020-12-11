@@ -299,7 +299,7 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
                 row :valor do
-                  "%.1f" % all_data[index] if all_data[index]&.values&.last
+                  "%.1f" % all_data[index]&.values&.last if all_data[index]&.values&.last
                 end
               end
               data = all_data[index]
@@ -323,7 +323,7 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
                 row :valor do
-                  "%.1f" % all_data[index] if all_data[index]&.values&.last
+                  "%.1f" % all_data[index]&.values&.last if all_data[index]&.values&.last
                 end
               end
               data = all_data[index]
@@ -347,7 +347,7 @@ ActiveAdmin.register Hive do
                   sensors[index]
                 end
                 row :valor do
-                  "%.1f" % all_data[index] if all_data[index]&.values&.last
+                  "%.1f" % all_data[index]&.values&.last if all_data[index]&.values&.last
                 end
               end
               data = all_data[index]
