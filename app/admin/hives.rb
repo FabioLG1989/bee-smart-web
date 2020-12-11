@@ -298,6 +298,9 @@ ActiveAdmin.register Hive do
                 row :activo do
                   sensors[index]
                 end
+                row :valor do
+                  "%.1f" % all_data[index] if all_data[index]&.last
+                end
               end
               data = all_data[index]
               render partial: 'hives/graph', locals: {
@@ -319,6 +322,9 @@ ActiveAdmin.register Hive do
                 row :activo do
                   sensors[index]
                 end
+                row :valor do
+                  "%.1f" % all_data[index] if all_data[index]&.last
+                end
               end
               data = all_data[index]
               render partial: 'hives/graph', locals: {
@@ -339,6 +345,9 @@ ActiveAdmin.register Hive do
                 end
                 row :activo do
                   sensors[index]
+                end
+                row :valor do
+                  "%.1f" % all_data[index] if all_data[index]&.last
                 end
               end
               data = all_data[index]
