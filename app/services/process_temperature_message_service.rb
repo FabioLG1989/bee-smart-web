@@ -28,6 +28,6 @@ class ProcessTemperatureMessageService < ApplicationService
   end
 
   def valid_meassure(sensor_data)
-    sensor_data.to_f != 0.0 && sensor_data.to_i < 63
+    sensor_data.to_f != 0.0 && sensor_data.to_i < 63 && sensor_data.to_f != 25.0
   end
 end
